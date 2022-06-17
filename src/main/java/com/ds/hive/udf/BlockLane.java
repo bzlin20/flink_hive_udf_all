@@ -1,7 +1,10 @@
 package com.ds.hive.udf;
 
 import org.apache.hadoop.hive.ql.exec.UDF;
-
+/**
+ * @author  longju
+ * @date 202220616
+ * */
 public class BlockLane  extends UDF {
     public String evaluate(String s1){
         String xx = s1.substring(0, 1);
