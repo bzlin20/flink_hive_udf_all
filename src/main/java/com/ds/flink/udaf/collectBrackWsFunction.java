@@ -5,7 +5,7 @@ import org.apache.flink.table.functions.AggregateFunction;
 
 /**
  * @author ds-longju
- * @function 实现hive collect_ws 函数功能，目前是用","分隔，可以自己自定义
+ * @function 实现hive collect_ws 函数功能，目前是用","分隔，可以自己自定义,拼接后成数组
  *
  * */
 public class collectBrackWsFunction  extends AggregateFunction<String,collectBrackWsFunction.StringAccum> {
@@ -26,14 +26,14 @@ public class collectBrackWsFunction  extends AggregateFunction<String,collectBra
      */
     @Override
     public String  getValue(collectBrackWsFunction.StringAccum stringAccum) {
-        if(stringAccum.total.toString().endsWith(",")){
-//            去掉最后一个字符
-            return  stringAccum.total.deleteCharAt(stringAccum.total.length()-1).toString();
-        }else {
-            return stringAccum.total.toString();
+        if (stringAccum.total.length() == 0){
+            return "" ;
         }
-    }
+        String baseStr = stringAccum.total.toString();
+        String sinkStr="[" + baseStr.substring(0, baseStr.length() - 1) +  "]";
+        return sinkStr;
 
+    }
 
     /**
      * 初始化count UDAF的accumulator。
